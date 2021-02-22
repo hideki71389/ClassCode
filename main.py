@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import json
 
 
 def init_notebook(notebook):
@@ -9,12 +10,35 @@ def init_notebook(notebook):
 
     無闇にクラス化すると、"self"をたくさん書かなくてはいけなくなったりします。
     """
-    for num in [0, 1, 2]:
-        tab = ttk.Frame(notebook)
-        name = names[int(num)]
+
+    tab1 = ttk.Frame(notebook)
+    tab2 = ttk.Frame(notebook)
+    tab3 = ttk.Frame(notebook)
+    tabs = [tab1, tab2, tab3]
+    i = 0
+
+    # 時間割タブ(tab1)
+    for vr in range(0, 5):
+        for hr in range(0, 7):
+            table = ttk.Button(tab1, text="ele")
+            table.grid(column=hr, row=vr, sticky=(tk.N, tk.W, tk.E, tk.S))
+
+    # 授業開始タブ(tab2)
+    # 授業終了タブ(tab3)
+    i = 0
+    for tab in tabs:
+        name = names[i]
+        i += 1
+       # button = ttk.Button(tab, text="ボタン")
+        # button.pack()
         notebook.add(tab, text=name)
 
     return notebook
+
+
+def init_tab(tab):
+    button = ttk.Button(tab, text="ボタン")
+    tab.add(button)
 
 
 class ScrolledCanvas(tk.Canvas):
@@ -56,7 +80,7 @@ class MainWindow(ttk.Frame):
         # そうすることで、Toplevel以外の親を持つことができ
         # このクラス自体を他のクラスの部品の一部として扱えるようになります。
 
-        canvas = ScrolledCanvas(self, width=200, height=200)
+        canvas = ScrolledCanvas(self)
         canvas.pack(fill=tk.BOTH, expand=True)  # <- 配置は利用側で決める
 
         notebook = init_notebook(ttk.Notebook(self))
@@ -71,7 +95,7 @@ class MainWindow(ttk.Frame):
 
 def main():
     root = tk.Tk()
-    root.geometry("400x400")
+    root.geometry("800x800")
     root.title("テスト")
 
     win = MainWindow(root)
